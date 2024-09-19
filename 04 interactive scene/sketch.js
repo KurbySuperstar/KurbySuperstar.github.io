@@ -4,16 +4,12 @@
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
-
+let name = "Ian_Herperger";
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  stroke (255,255,255)
-  line (windowWidth,windowHeight,0,0)
-  textSize(16);
-  textAlign(CENTER,BOTTOM);
-  text('ABCD', 50, 30);
 } 
+
 var currentBack = 0
 var move = 0
 function draw() {
@@ -41,6 +37,8 @@ function draw() {
   line(mouseX,mouseY+50,mouseX+25,mouseY+75);
   line(mouseX,mouseY+50,mouseX-25,mouseY+75);
   moveSun()
+  textSize(60);
+  text(name,width*0.7,height*0.99)
 }
 
 function bG(){
@@ -48,7 +46,12 @@ function bG(){
     background(0);
   }
   else if (currentBack === 1){
-    background(255,0,0);
+    for(let y = height; y>+ 0; y -= rectHeight){
+      let value = map(y,0,height,0,255)
+      noStroke();
+      fill(value,y/5,y/2)
+      rect(0,y,width,rectHeight)
+    }
   }
   else if (currentBack ===2){
     background(0,255,0);
