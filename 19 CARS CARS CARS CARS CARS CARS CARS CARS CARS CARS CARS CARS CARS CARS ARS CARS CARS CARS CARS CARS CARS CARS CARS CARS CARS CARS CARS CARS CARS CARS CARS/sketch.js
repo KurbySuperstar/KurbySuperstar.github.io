@@ -4,6 +4,9 @@
 
 let dash1 = 0;
 let dash2 = 20;
+let myCar;
+let eastbound = [];
+let westbound = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -12,6 +15,12 @@ function setup() {
 function draw() {
   background(155);
   drawRoad();
+  for(let i=0; i<eastbound.length; i++){
+    eastbound[i].action();
+  }
+  for(let i=0; i<westbound.length; i++){
+    westbound[i].action();
+  }
 }
 
 
@@ -30,18 +39,108 @@ function drawRoad(){
   dash2 = 20;
 
 }
+function mouseClicked(){
+  if(keyIsPressed && keyCode === SHIFT){
+    westbound.push(new vehicle(0,random(height/2.2,height/3.2),1));
+
+  }
+  else{
+    eastbound.push(new vehicle(width,random(height/1.9,height/1.5),0));
+  }
+
+}
 
 class vehicle{
-  constructor(type,x,y,colour, direction){
+  constructor(x,y, direction){
     this.x = x;
     this.y = y;
-    this.colour = colour(random(255), random(255),random(255));
+    this.colour = color(random(255), random(255),random(255));
     this.direction = direction;
-    this.xspeed = random(1,70);
+    this.xspeed = random(1,30);
+    this.type = int(random(2));
 
-    this.type = type;
 
 
   }
+  action(){
+    //call the other functions
+    this.speedup();
+    this.slowdown();
+    this.move();
+    this.colorchange();
+    this.display();
+  }
+  display(){
+    if(this.type ===0){
 
+      this.drawCar();
+
+
+    }
+    else if(this.type === 1){
+      this.drawTruck();
+      
+
+    }
+  }
+  drawCar(){
+    fill(this.colour);
+    rect(this.x,this.y,100,40);
+
+  }
+  drawTruck(){
+    fill(this.colour);
+    ellipse(this.x,this.y,100,40);
+
+  }
+  move(){
+    if (this.direction === 1){
+      this.x += this.xspeed;
+      if (this.x > width){
+        this.x =0;
+      }
+  
+
+    }
+    else if (this.direction === 0){
+      this.x -= this.xspeed;
+      if (this.x < 0){
+        this.x =width;
+      }
+  
+
+    }
+
+
+  }
+  speedup(){
+    if (this.direction === 1){
+      if (random(1,100) >= 100){
+        xspeed += random(1,15);
+      }
+    }
+    if (this.direction === 0){
+      if (random(1,100) >= 100){
+        xspeed += random(-15,-1);
+      }
+    }
+  }
+  slowdown(){
+    if (this.direction === 1){
+      if (random(1,100) >= 100){
+        xspeed -= random(1,15);
+      }
+    }
+    if (this.direction === 0){
+      if (random(1,100) >= 100){
+        xspeed -= random(-15,-1);
+      }
+    }
+  }
+  colorchange(){
+    if(random(1,100) >= 100){
+      this.colour = color(random(255),random(255),random(255));
+
+    }
+  }
 }
