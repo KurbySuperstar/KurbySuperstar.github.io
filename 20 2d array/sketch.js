@@ -2,16 +2,18 @@
 // Ian Herperger
 // 10/29/2024
 
-const NUM_ROWS = 5;
-const NUM_COLS = 5;
+
+
+//makes open grid and variables needed to make grid
+const NUM_ROWS = 60;
+const NUM_COLS = 50;
 let winCon = 0;
 let rectWidth, rectHeight;
 let currentRow, currentCol;
 let grid =[];
-//let gridData = [[0,0,0,255,0],
-                // [255,0,255,0,255],
-                // [0,255,0,0,0],
-                // [0,0,255,0,255]];
+
+
+//set up grid and screen
 function setup() {
   createCanvas(windowWidth, windowHeight);
   rectWidth = width / NUM_COLS;
@@ -19,6 +21,8 @@ function setup() {
   randomize();
 
 }
+
+// fills grid with correct colours
 function drawGrid(){
 //draw the squares for the grid that appears
   for (let y = 0; y < NUM_ROWS; y++){
@@ -28,14 +32,16 @@ function drawGrid(){
     }
   }
 }
+
+// keeps track of which square your mouse is over
 function determineActiveSquare(){
-  //know which squares are currently no solved
   currentRow = int(mouseY / rectHeight);
   currentCol = int(mouseX / rectWidth);
   print(currentCol, currentRow);
 }
 
 
+// flips square colour on grid
 function flip(col, row){
   if (col >= 0 && col < NUM_COLS && row >= 0 && row < NUM_ROWS){
     if (grid[row][col] === 0){
@@ -47,15 +53,18 @@ function flip(col, row){
   }
 }
 
+// call the win function and the grid function also the green cross overlay
 function draw() {
   background(220);
   determineActiveSquare();
 
   drawGrid();
 
-  win();
   overlay();
+  win();
 }
+
+// makes it so when clickd it flips square and when shift clicked flips one square
 function mousePressed(){
   if(keyIsDown(SHIFT)){
     flip(currentCol, currentRow );
@@ -71,6 +80,9 @@ function mousePressed(){
   }
 
 }
+
+
+// adds a way  to win the game with all squares being one clolour
 function win(){
   let fv = grid[0][0];
   let white = grid.every(row => row.every(value=> value === fv));
@@ -93,6 +105,8 @@ function win(){
   }
 
 }
+
+// let the board be randomized each time you start the game up
 function randomize(){
   for(let i =0; i< NUM_ROWS;i++){
     let rowArray = [];
@@ -111,13 +125,14 @@ function randomize(){
   }
 }
 
+
+// creats the green overlay
 function overlay(){
-  //know which squares are currently no solved
   currentRow = int(mouseY / rectHeight);
   currentCol = int(mouseX / rectWidth);
   print(currentCol, currentRow);
 
-  fill(0,200,0);
+  fill(0,200,0,100);
   rect(currentCol*rectWidth,currentRow*rectHeight,rectWidth,rectHeight);
   rect((currentCol-1)*rectWidth,currentRow*rectHeight,rectWidth,rectHeight);
   rect((currentCol+1)*rectWidth,currentRow*rectHeight,rectWidth,rectHeight);
